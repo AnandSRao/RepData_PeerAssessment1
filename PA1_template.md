@@ -144,14 +144,10 @@ To create the time series plot, we have to group the rows by each 5 minute inter
 MeanStepsByInterval <- tapply(data$steps, data$interval, mean, na.rm=TRUE)
 barplot(MeanStepsByInterval,
         col = "blue1",
-        main = "Average Number of Steps by 5 minute intervals")
+        main = "Average Number of Steps")
 ```
 
 ![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-9-1.png) 
-
-```r
-png(filename="plot1.png", width=960, height=480)
-```
 
 ### Which 5-minute interval, on average across all days in the datasets, contains the maximum number of steps
 We get the maximum number of steps in a specific 5-minute interval by using the following function. The maximum steps is recorded at 08:35 across all days in the dataset.
@@ -237,7 +233,7 @@ hist(TotalImputedStepsByDate,
      col = "blue1",
      xlim = c(0,24000),
      xaxt = "n",
-     main = "Histogram of Total Number of Steps by Date with NA values imputed by the Mean", 
+     main = "Histogram of Total Number of Steps by Date (Imputed)", 
      xlab = "Total Steps by Date")
 axis(side = 1, at=c(0,5000,10000,15000,20000,24000))
 ```
@@ -303,24 +299,23 @@ We use the **ggplot2** package to create a **qplot** with the interval numbers a
 
 ```r
 library(ggplot2)
-png(filename="figure1.png", width=960, height=480)
+png(filename="figure1.png", width=1440, height=960)
 
 qplot(intervalNum, imputedSteps,
         data = data, 
         type = "1",
         facets = daytype ~ .,
         group = 1,
-        geom = c("point","smooth"),
+        geom = "line",
+        main = "Average Number of Steps by  5 minute Intervals",
         geom_line(linetype="solid"),
-        xlab = "Five minute intervals",
-        ylab = "Total number of steps")
+        xlab = "Five minute intervals from 00:00 to 23:55 coded as 1..288",
+        ylab = "Average number of steps (over 61 days)")
 dev.off()
 ```
 
-![plot of chunk unnamed-chunk-15](figure/unnamed-chunk-15-1.png) 
-
 ```
-## RStudioGD 
-##         2
+## pdf 
+##   2
 ```
 

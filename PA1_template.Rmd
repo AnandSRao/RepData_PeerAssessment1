@@ -109,8 +109,7 @@ To create the time series plot, we have to group the rows by each 5 minute inter
 MeanStepsByInterval <- tapply(data$steps, data$interval, mean, na.rm=TRUE)
 barplot(MeanStepsByInterval,
         col = "blue1",
-        main = "Average Number of Steps by 5 minute intervals")
-png(filename="plot1.png", width=960, height=480)
+        main = "Average Number of Steps")
 ```
 
 ### Which 5-minute interval, on average across all days in the datasets, contains the maximum number of steps
@@ -174,7 +173,7 @@ hist(TotalImputedStepsByDate,
      col = "blue1",
      xlim = c(0,24000),
      xaxt = "n",
-     main = "Histogram of Total Number of Steps by Date with NA values imputed by the Mean", 
+     main = "Histogram of Total Number of Steps by Date (Imputed)", 
      xlab = "Total Steps by Date")
 axis(side = 1, at=c(0,5000,10000,15000,20000,24000))
 
@@ -206,17 +205,18 @@ We use the **ggplot2** package to create a **qplot** with the interval numbers a
 
 ```{r, message=FALSE, warning=FALSE}
 library(ggplot2)
-png(filename="figure1.png", width=960, height=480)
+png(filename="figure1.png", width=1440, height=960)
 
 qplot(intervalNum, imputedSteps,
         data = data, 
         type = "1",
         facets = daytype ~ .,
         group = 1,
-        geom = c("point","smooth"),
+        geom = "line",
+        main = "Average Number of Steps by  5 minute Intervals",
         geom_line(linetype="solid"),
-        xlab = "Five minute intervals",
-        ylab = "Total number of steps")
+        xlab = "Five minute intervals from 00:00 to 23:55 coded as 1..288",
+        ylab = "Average number of steps (over 61 days)")
 dev.off()
 ```
 
